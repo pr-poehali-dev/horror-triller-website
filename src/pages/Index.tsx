@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
 const HERO_IMAGE = "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/files/cbc9c9ee-b6ba-4420-ae99-47c60fad428e.jpg";
+const LOGO = "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/bucket/ff03a736-40dd-4c71-a260-6e0d35e93039.png";
 
 const tracks = [
   { id: 1, title: "Пустота внутри", duration: "4:32", album: "VOID I", year: "2024" },
@@ -80,11 +81,8 @@ export default function Index() {
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-5"
         style={{ background: "linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%)" }}>
-        <button
-          onClick={() => scrollTo("hero")}
-          className="text-2xl font-oswald font-700 tracking-[0.3em] text-white hover:text-red-500 transition-colors duration-300 animate-flicker"
-        >
-          VOID
+        <button onClick={() => scrollTo("hero")} className="hover:opacity-80 transition-opacity duration-300">
+          <img src={LOGO} alt="Horror Thriller" className="h-10 w-auto object-contain" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.4))" }} />
         </button>
 
         {/* Desktop nav */}
@@ -153,10 +151,12 @@ export default function Index() {
           <div
             style={{ opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-60px)", transition: "all 1.2s ease-out 0.2s" }}
           >
-            <h1 className="font-oswald font-bold leading-none mb-6"
-              style={{ fontSize: "clamp(80px, 18vw, 220px)", letterSpacing: "-0.02em", textShadow: "0 0 80px rgba(220,38,38,0.3)" }}>
-              VOID
-            </h1>
+            <img
+              src={LOGO}
+              alt="Horror Thriller"
+              className="mb-6 w-full max-w-2xl"
+              style={{ filter: "drop-shadow(0 0 60px rgba(220,38,38,0.5)) drop-shadow(0 0 120px rgba(220,38,38,0.2))" }}
+            />
           </div>
 
           <div
@@ -368,7 +368,7 @@ export default function Index() {
       {/* FOOTER */}
       <footer className="py-8 px-6 md:px-16 border-t border-white/5">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="font-oswald text-2xl tracking-[0.4em] text-white/20 animate-flicker">VOID</span>
+          <img src={LOGO} alt="Horror Thriller" className="h-8 w-auto object-contain opacity-20" />
           <p className="font-mono text-xs text-gray-700 tracking-widest">© 2024 VOID. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
           <div className="w-16 h-px bg-red-600 opacity-40" />
         </div>
