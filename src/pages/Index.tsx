@@ -229,9 +229,6 @@ export default function Index() {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-end gap-6 mb-16">
             <h2 className="font-oswald font-bold text-6xl md:text-8xl tracking-tight leading-none">ВИДЕО</h2>
-            <div className="mb-2 pb-3 border-b border-red-600">
-              <span className="font-mono text-red-500 text-xs tracking-widest">YOUTUBE</span>
-            </div>
           </div>
 
           <div className="space-y-6">
