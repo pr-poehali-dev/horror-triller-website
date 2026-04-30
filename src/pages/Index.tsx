@@ -11,9 +11,7 @@ const albums = [
 ];
 
 const videos = [
-  { id: 1, title: "Пустота внутри — Live at Dark Fest", views: "128K", date: "март 2024", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" },
-  { id: 2, title: "Кровь асфальта — Official Video", views: "84K", date: "янв 2024", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" },
-  { id: 3, title: "VOID — Interview 2024", views: "31K", date: "дек 2023", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" },
+  { id: 1, embed: "https://vk.com/video_ext.php?oid=-205908985&id=456239059&hd=2", url: "https://vk.com/video-205908985_456239059" },
 ];
 
 export default function Index() {
@@ -236,28 +234,19 @@ export default function Index() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-6">
             {videos.map((video) => (
-              <div key={video.id} className="group cursor-pointer">
-                <div className="relative overflow-hidden mb-3" style={{ aspectRatio: "16/9" }}>
-                  <img
-                    src={video.thumb}
-                    alt={video.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    style={{ filter: "grayscale(0.6) brightness(0.7)" }}
+              <div key={video.id} className="relative border border-white/10 hover:border-red-600/50 transition-colors duration-300">
+                <div className="absolute top-0 left-0 w-1 h-full bg-red-600 opacity-80" />
+                <div style={{ aspectRatio: "16/9" }}>
+                  <iframe
+                    src={video.embed}
+                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                    style={{ border: "none" }}
                   />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-14 h-14 rounded-full border-2 border-white/80 flex items-center justify-center bg-black/30 group-hover:border-red-500 group-hover:bg-red-600/30 transition-all duration-300">
-                      <Icon name="Play" size={20} className="text-white fill-white ml-1" />
-                    </div>
-                  </div>
-                  <div className="absolute top-3 left-3 w-1 h-8 bg-red-600" />
                 </div>
-                <h3 className="font-oswald text-sm tracking-wide text-white group-hover:text-red-400 transition-colors leading-snug mb-1">
-                  {video.title}
-                </h3>
-                <p className="font-mono text-xs text-gray-600">{video.views} просмотров · {video.date}</p>
               </div>
             ))}
           </div>
