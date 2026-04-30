@@ -16,8 +16,6 @@ const videos = [
 
 export default function Index() {
   const [activeSection, setActiveSection] = useState("hero");
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -47,11 +45,6 @@ export default function Index() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
-  };
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) setSubscribed(true);
   };
 
   const navItems = [
@@ -247,47 +240,6 @@ export default function Index() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* SUBSCRIBE */}
-      <section className="relative py-20 px-6 md:px-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{
-          background: "repeating-linear-gradient(90deg, #dc2626 0px, #dc2626 1px, transparent 1px, transparent 80px)"
-        }} />
-
-        <div className="max-w-2xl mx-auto text-center relative z-10">
-          <p className="font-mono text-red-500 text-xs tracking-[0.5em] mb-4">РАССЫЛКА</p>
-          <h2 className="font-oswald font-bold text-4xl md:text-5xl tracking-tight mb-4">
-            ЭКСКЛЮЗИВНЫЙ КОНТЕНТ
-          </h2>
-          <p className="font-cormorant text-gray-400 text-xl mb-10">
-            Первым узнавай о релизах, концертах и закулисье группы
-          </p>
-
-          {subscribed ? (
-            <div className="flex items-center justify-center gap-3 text-red-400">
-              <Icon name="CheckCircle" size={20} />
-              <span className="font-oswald tracking-widest text-sm">ДОБРО ПОЖАЛОВАТЬ В ТЬМУ</span>
-            </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-0">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="ВАШ EMAIL"
-                required
-                className="flex-1 bg-white/5 border border-white/20 text-white font-mono text-sm tracking-widest px-6 py-4 placeholder:text-gray-600 focus:outline-none focus:border-red-600 transition-colors"
-              />
-              <button
-                type="submit"
-                className="bg-red-600 hover:bg-red-700 text-white font-oswald text-sm tracking-[0.2em] px-8 py-4 transition-colors duration-300 whitespace-nowrap"
-              >
-                ПОДПИСАТЬСЯ
-              </button>
-            </form>
-          )}
         </div>
       </section>
 
