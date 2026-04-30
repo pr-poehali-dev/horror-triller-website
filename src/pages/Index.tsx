@@ -243,53 +243,29 @@ export default function Index() {
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="relative py-28 px-6 md:px-16 bg-[#080808]">
+      {/* SOCIAL */}
+      <section id="contact" className="relative py-20 px-6 md:px-16 bg-[#080808]">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent" />
 
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-end gap-6 mb-16">
-            <h2 className="font-oswald font-bold text-6xl md:text-8xl tracking-tight leading-none">КОНТАКТЫ</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div className="space-y-10">
-              <div>
-                <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-3">БРОНИРОВАНИЕ / КОНЦЕРТЫ</p>
-                <p className="font-oswald text-2xl text-white">booking@voidband.ru</p>
+          <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-8">МЫ В СЕТИ</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { icon: "Music", label: "ВКонтакте", handle: "@voidband" },
+              { icon: "Video", label: "YouTube", handle: "@voidband" },
+              { icon: "Headphones", label: "Яндекс Музыка", handle: "Horror Thriller" },
+              { icon: "Radio", label: "Spotify", handle: "Horror Thriller" },
+            ].map((s) => (
+              <div key={s.label} className="flex items-center gap-4 group cursor-pointer border border-white/10 p-4 hover:border-red-600 hover:bg-red-600/5 transition-all duration-300">
+                <div className="w-10 h-10 flex items-center justify-center shrink-0">
+                  <Icon name={s.icon} fallback="Music" size={20} className="text-gray-500 group-hover:text-red-400 transition-colors" />
+                </div>
+                <div>
+                  <p className="font-oswald text-sm tracking-wide text-white group-hover:text-red-400 transition-colors">{s.label}</p>
+                  <p className="font-mono text-xs text-gray-600">{s.handle}</p>
+                </div>
               </div>
-              <div>
-                <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-3">ПРЕССА / ИНТЕРВЬЮ</p>
-                <p className="font-oswald text-2xl text-white">press@voidband.ru</p>
-              </div>
-              <div>
-                <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-3">ОБЩИЕ ВОПРОСЫ</p>
-                <p className="font-oswald text-2xl text-white">info@voidband.ru</p>
-              </div>
-            </div>
-
-            <div>
-              <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-8">МЫ В СЕТИ</p>
-              <div className="space-y-4">
-                {[
-                  { icon: "Music", label: "ВКонтакте", handle: "@voidband" },
-                  { icon: "Video", label: "YouTube", handle: "@voidband" },
-                  { icon: "Headphones", label: "Яндекс Музыка", handle: "VOID" },
-                  { icon: "Radio", label: "Spotify", handle: "VOID" },
-                ].map((s) => (
-                  <div key={s.label} className="flex items-center gap-4 group cursor-pointer">
-                    <div className="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-red-600 group-hover:bg-red-600/10 transition-all duration-300">
-                      <Icon name={s.icon} fallback="Music" size={14} className="text-gray-500 group-hover:text-red-400" />
-                    </div>
-                    <div>
-                      <p className="font-oswald text-sm tracking-wide text-white group-hover:text-red-400 transition-colors">{s.label}</p>
-                      <p className="font-mono text-xs text-gray-600">{s.handle}</p>
-                    </div>
-                    <Icon name="ArrowRight" size={14} className="ml-auto text-gray-700 group-hover:text-red-500 group-hover:translate-x-1 transition-all" />
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
