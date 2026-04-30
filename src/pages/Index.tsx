@@ -1,15 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 const HERO_IMAGE = "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/files/cbc9c9ee-b6ba-4420-ae99-47c60fad428e.jpg";
 const LOGO = "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/bucket/ff03a736-40dd-4c71-a260-6e0d35e93039.png";
 
-const tracks = [
-  { id: 1, title: "Пустота внутри", duration: "4:32", album: "VOID I", year: "2024" },
-  { id: 2, title: "Кровь асфальта", duration: "5:11", album: "VOID I", year: "2024" },
-  { id: 3, title: "Железный рассвет", duration: "3:58", album: "VOID I", year: "2024" },
-  { id: 4, title: "Тень за тенью", duration: "6:03", album: "VOID II", year: "2023" },
-  { id: 5, title: "Конец горизонта", duration: "4:47", album: "VOID II", year: "2023" },
+const albums = [
+  { id: 1, title: "Герои Кинематограф", year: "2009", url: "https://band.link/heroes_of_cinema" },
+  { id: 2, title: "Тёмный мир фэнтэзи", year: "2024", url: "https://band.link/ooy5e" },
+  { id: 3, title: "Кровавый коридор", year: "2024", url: "https://band.link/krovavyjkoridor" },
 ];
 
 const videos = [
@@ -20,11 +18,9 @@ const videos = [
 
 export default function Index() {
   const [activeSection, setActiveSection] = useState("hero");
-  const [playingTrack, setPlayingTrack] = useState<number | null>(null);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hoveredTrack, setHoveredTrack] = useState<number | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -195,39 +191,34 @@ export default function Index() {
           </div>
 
           <div className="space-y-0">
-            {tracks.map((track, i) => (
-              <div
-                key={track.id}
-                onMouseEnter={() => setHoveredTrack(track.id)}
-                onMouseLeave={() => setHoveredTrack(null)}
-                onClick={() => setPlayingTrack(playingTrack === track.id ? null : track.id)}
-                className="group flex items-center gap-6 py-5 border-b border-white/10 cursor-pointer transition-all duration-300 hover:bg-white/[0.03] px-4 -mx-4"
+            {albums.map((album, i) => (
+              <a
+                key={album.id}
+                href={album.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-6 py-6 border-b border-white/10 transition-all duration-300 hover:bg-white/[0.03] px-4 -mx-4"
               >
-                <div className="w-8 text-center">
-                  {playingTrack === track.id ? (
-                    <div className="flex items-end justify-center gap-0.5 h-5">
-                      {[...Array(3)].map((_, j) => (
-                        <div key={j} className="w-0.5 bg-red-500 animate-pulse"
-                          style={{ height: `${[14, 20, 10][j]}px`, animationDelay: `${j * 0.15}s` }} />
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="font-mono text-xs text-gray-600 group-hover:hidden">{String(i + 1).padStart(2, "0")}</span>
-                  )}
-                  {playingTrack !== track.id && hoveredTrack === track.id && (
-                    <Icon name="Play" size={14} className="text-red-500 fill-red-500" />
-                  )}
+                <span className="font-mono text-xs text-gray-600 w-8 text-center group-hover:text-red-500 transition-colors">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <div className="w-12 h-12 border border-white/10 flex items-center justify-center group-hover:border-red-600 group-hover:bg-red-600/10 transition-all duration-300 shrink-0">
+                  <Icon name="Disc3" size={18} className="text-gray-600 group-hover:text-red-400 transition-colors" />
                 </div>
 
                 <div className="flex-1">
-                  <p className={`font-oswald text-lg tracking-wide transition-colors duration-200 ${playingTrack === track.id ? "text-red-400" : "text-white group-hover:text-red-400"}`}>
-                    {track.title}
+                  <p className="font-oswald text-xl tracking-wide text-white group-hover:text-red-400 transition-colors duration-200">
+                    {album.title}
                   </p>
-                  <p className="font-mono text-xs text-gray-600 mt-0.5">{track.album} · {track.year}</p>
+                  <p className="font-mono text-xs text-gray-600 mt-0.5">{album.year}</p>
                 </div>
 
-                <span className="font-mono text-sm text-gray-500">{track.duration}</span>
-              </div>
+                <div className="flex items-center gap-2 text-gray-600 group-hover:text-red-500 transition-colors">
+                  <span className="font-mono text-xs tracking-widest hidden sm:block">СЛУШАТЬ</span>
+                  <Icon name="ExternalLink" size={14} />
+                </div>
+              </a>
             ))}
           </div>
         </div>
