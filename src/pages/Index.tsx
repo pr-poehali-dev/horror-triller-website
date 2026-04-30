@@ -249,14 +249,13 @@ export default function Index() {
 
         <div className="max-w-4xl mx-auto">
           <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-8">МЫ В СЕТИ</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { icon: "Music", label: "ВКонтакте", handle: "@voidband" },
-              { icon: "Video", label: "YouTube", handle: "@voidband" },
-              { icon: "Headphones", label: "Яндекс Музыка", handle: "Horror Thriller" },
-              { icon: "Radio", label: "Spotify", handle: "Horror Thriller" },
+              { icon: "Music", label: "ВКонтакте", handle: "@horrortriller", url: "https://vk.com/horrortriller" },
+              { icon: "Headphones", label: "Яндекс Музыка", handle: "Horror Thriller", url: "https://music.yandex.ru/artist/22177485" },
+              { icon: "Send", label: "Telegram", handle: "@the_dark_sun_of_karelia", url: "https://t.me/the_dark_sun_of_karelia" },
             ].map((s) => (
-              <div key={s.label} className="flex items-center gap-4 group cursor-pointer border border-white/10 p-4 hover:border-red-600 hover:bg-red-600/5 transition-all duration-300">
+              <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group cursor-pointer border border-white/10 p-4 hover:border-red-600 hover:bg-red-600/5 transition-all duration-300">
                 <div className="w-10 h-10 flex items-center justify-center shrink-0">
                   <Icon name={s.icon} fallback="Music" size={20} className="text-gray-500 group-hover:text-red-400 transition-colors" />
                 </div>
@@ -264,7 +263,7 @@ export default function Index() {
                   <p className="font-oswald text-sm tracking-wide text-white group-hover:text-red-400 transition-colors">{s.label}</p>
                   <p className="font-mono text-xs text-gray-600">{s.handle}</p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
