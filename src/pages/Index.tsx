@@ -1,14 +1,378 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect, useRef } from "react";
+import Icon from "@/components/ui/icon";
 
-const Index = () => {
+const HERO_IMAGE = "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/files/cbc9c9ee-b6ba-4420-ae99-47c60fad428e.jpg";
+
+const tracks = [
+  { id: 1, title: "Пустота внутри", duration: "4:32", album: "VOID I", year: "2024" },
+  { id: 2, title: "Кровь асфальта", duration: "5:11", album: "VOID I", year: "2024" },
+  { id: 3, title: "Железный рассвет", duration: "3:58", album: "VOID I", year: "2024" },
+  { id: 4, title: "Тень за тенью", duration: "6:03", album: "VOID II", year: "2023" },
+  { id: 5, title: "Конец горизонта", duration: "4:47", album: "VOID II", year: "2023" },
+];
+
+const videos = [
+  { id: 1, title: "Пустота внутри — Live at Dark Fest", views: "128K", date: "март 2024", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" },
+  { id: 2, title: "Кровь асфальта — Official Video", views: "84K", date: "янв 2024", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" },
+  { id: 3, title: "VOID — Interview 2024", views: "31K", date: "дек 2023", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" },
+];
+
+export default function Index() {
+  const [activeSection, setActiveSection] = useState("hero");
+  const [playingTrack, setPlayingTrack] = useState<number | null>(null);
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredTrack, setHoveredTrack] = useState<number | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["hero", "music", "video", "contact"];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  };
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) setSubscribed(true);
+  };
+
+  const navItems = [
+    { id: "music", label: "МУЗЫКА" },
+    { id: "video", label: "ВИДЕО" },
+    { id: "contact", label: "КОНТАКТЫ" },
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div className="min-h-screen bg-[#0a0a0a] text-white font-oswald overflow-x-hidden">
+
+      {/* Noise overlay */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundSize: "256px",
+        }}
+      />
+
+      {/* NAV */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-5"
+        style={{ background: "linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%)" }}>
+        <button
+          onClick={() => scrollTo("hero")}
+          className="text-2xl font-oswald font-700 tracking-[0.3em] text-white hover:text-red-500 transition-colors duration-300 animate-flicker"
+        >
+          VOID
+        </button>
+
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-10">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className={`font-oswald text-sm tracking-[0.2em] transition-all duration-300 border-b-2 pb-0.5 ${
+                activeSection === item.id
+                  ? "text-red-500 border-red-500"
+                  : "text-gray-400 border-transparent hover:text-white hover:border-white"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile burger */}
+        <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
+          <Icon name={menuOpen ? "X" : "Menu"} size={24} />
+        </button>
+      </nav>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#0a0a0a] flex flex-col items-center justify-center gap-10">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className="font-oswald text-4xl font-bold tracking-[0.3em] text-white hover:text-red-500 transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* HERO */}
+      <section id="hero" className="relative min-h-screen flex items-end pb-24 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0">
+          <img
+            src={HERO_IMAGE}
+            alt="VOID"
+            className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.35) contrast(1.2)" }}
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.3) 50%, transparent 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(10,10,10,0.8) 100%)" }} />
+        </div>
+
+        {/* Red accent line */}
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-600 opacity-80" />
+
+        <div className="relative z-10 px-8 md:px-16 max-w-5xl">
+          <div
+            className="overflow-hidden mb-2"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(40px)", transition: "all 1s ease-out" }}
+          >
+            <p className="font-mono text-red-500 text-xs tracking-[0.5em] mb-6">— ОФИЦИАЛЬНЫЙ САЙТ —</p>
+          </div>
+
+          <div
+            style={{ opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-60px)", transition: "all 1.2s ease-out 0.2s" }}
+          >
+            <h1 className="font-oswald font-bold leading-none mb-6"
+              style={{ fontSize: "clamp(80px, 18vw, 220px)", letterSpacing: "-0.02em", textShadow: "0 0 80px rgba(220,38,38,0.3)" }}>
+              VOID
+            </h1>
+          </div>
+
+          <div
+            style={{ opacity: visible ? 1 : 0, transition: "opacity 1s ease-out 0.8s" }}
+          >
+            <p className="font-cormorant italic text-gray-300 text-2xl md:text-3xl mb-10 max-w-lg" style={{ fontStyle: "italic" }}>
+              «Там, где кончается свет — начинается музыка»
+            </p>
+            <button
+              onClick={() => scrollTo("music")}
+              className="group flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-oswald text-sm tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:scale-105"
+            >
+              СЛУШАТЬ СЕЙЧАС
+              <Icon name="ChevronRight" size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 right-8 flex flex-col items-center gap-2 opacity-40">
+          <span className="font-mono text-[10px] tracking-widest rotate-90 mb-4">SCROLL</span>
+          <div className="w-px h-16 bg-white animate-pulse" />
+        </div>
+      </section>
+
+      {/* MUSIC */}
+      <section id="music" className="relative py-28 px-6 md:px-16">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-end gap-6 mb-16">
+            <h2 className="font-oswald font-bold text-6xl md:text-8xl tracking-tight leading-none">МУЗЫКА</h2>
+            <div className="mb-2 pb-3 border-b border-red-600">
+              <span className="font-mono text-red-500 text-xs tracking-widest">ДИСКОГРАФИЯ</span>
+            </div>
+          </div>
+
+          <div className="space-y-0">
+            {tracks.map((track, i) => (
+              <div
+                key={track.id}
+                onMouseEnter={() => setHoveredTrack(track.id)}
+                onMouseLeave={() => setHoveredTrack(null)}
+                onClick={() => setPlayingTrack(playingTrack === track.id ? null : track.id)}
+                className="group flex items-center gap-6 py-5 border-b border-white/10 cursor-pointer transition-all duration-300 hover:bg-white/[0.03] px-4 -mx-4"
+              >
+                <div className="w-8 text-center">
+                  {playingTrack === track.id ? (
+                    <div className="flex items-end justify-center gap-0.5 h-5">
+                      {[...Array(3)].map((_, j) => (
+                        <div key={j} className="w-0.5 bg-red-500 animate-pulse"
+                          style={{ height: `${[14, 20, 10][j]}px`, animationDelay: `${j * 0.15}s` }} />
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="font-mono text-xs text-gray-600 group-hover:hidden">{String(i + 1).padStart(2, "0")}</span>
+                  )}
+                  {playingTrack !== track.id && hoveredTrack === track.id && (
+                    <Icon name="Play" size={14} className="text-red-500 fill-red-500" />
+                  )}
+                </div>
+
+                <div className="flex-1">
+                  <p className={`font-oswald text-lg tracking-wide transition-colors duration-200 ${playingTrack === track.id ? "text-red-400" : "text-white group-hover:text-red-400"}`}>
+                    {track.title}
+                  </p>
+                  <p className="font-mono text-xs text-gray-600 mt-0.5">{track.album} · {track.year}</p>
+                </div>
+
+                <span className="font-mono text-sm text-gray-500">{track.duration}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* VIDEO */}
+      <section id="video" className="relative py-28 px-6 md:px-16 bg-[#080808]">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-end gap-6 mb-16">
+            <h2 className="font-oswald font-bold text-6xl md:text-8xl tracking-tight leading-none">ВИДЕО</h2>
+            <div className="mb-2 pb-3 border-b border-red-600">
+              <span className="font-mono text-red-500 text-xs tracking-widest">YOUTUBE</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {videos.map((video) => (
+              <div key={video.id} className="group cursor-pointer">
+                <div className="relative overflow-hidden mb-3" style={{ aspectRatio: "16/9" }}>
+                  <img
+                    src={video.thumb}
+                    alt={video.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    style={{ filter: "grayscale(0.6) brightness(0.7)" }}
+                  />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full border-2 border-white/80 flex items-center justify-center bg-black/30 group-hover:border-red-500 group-hover:bg-red-600/30 transition-all duration-300">
+                      <Icon name="Play" size={20} className="text-white fill-white ml-1" />
+                    </div>
+                  </div>
+                  <div className="absolute top-3 left-3 w-1 h-8 bg-red-600" />
+                </div>
+                <h3 className="font-oswald text-sm tracking-wide text-white group-hover:text-red-400 transition-colors leading-snug mb-1">
+                  {video.title}
+                </h3>
+                <p className="font-mono text-xs text-gray-600">{video.views} просмотров · {video.date}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SUBSCRIBE */}
+      <section className="relative py-20 px-6 md:px-16 overflow-hidden">
+        <div className="absolute inset-0 opacity-5" style={{
+          background: "repeating-linear-gradient(90deg, #dc2626 0px, #dc2626 1px, transparent 1px, transparent 80px)"
+        }} />
+
+        <div className="max-w-2xl mx-auto text-center relative z-10">
+          <p className="font-mono text-red-500 text-xs tracking-[0.5em] mb-4">РАССЫЛКА</p>
+          <h2 className="font-oswald font-bold text-4xl md:text-5xl tracking-tight mb-4">
+            ЭКСКЛЮЗИВНЫЙ КОНТЕНТ
+          </h2>
+          <p className="font-cormorant text-gray-400 text-xl mb-10">
+            Первым узнавай о релизах, концертах и закулисье группы
+          </p>
+
+          {subscribed ? (
+            <div className="flex items-center justify-center gap-3 text-red-400">
+              <Icon name="CheckCircle" size={20} />
+              <span className="font-oswald tracking-widest text-sm">ДОБРО ПОЖАЛОВАТЬ В ТЬМУ</span>
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-0">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="ВАШ EMAIL"
+                required
+                className="flex-1 bg-white/5 border border-white/20 text-white font-mono text-sm tracking-widest px-6 py-4 placeholder:text-gray-600 focus:outline-none focus:border-red-600 transition-colors"
+              />
+              <button
+                type="submit"
+                className="bg-red-600 hover:bg-red-700 text-white font-oswald text-sm tracking-[0.2em] px-8 py-4 transition-colors duration-300 whitespace-nowrap"
+              >
+                ПОДПИСАТЬСЯ
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section id="contact" className="relative py-28 px-6 md:px-16 bg-[#080808]">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-end gap-6 mb-16">
+            <h2 className="font-oswald font-bold text-6xl md:text-8xl tracking-tight leading-none">КОНТАКТЫ</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div className="space-y-10">
+              <div>
+                <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-3">БРОНИРОВАНИЕ / КОНЦЕРТЫ</p>
+                <p className="font-oswald text-2xl text-white">booking@voidband.ru</p>
+              </div>
+              <div>
+                <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-3">ПРЕССА / ИНТЕРВЬЮ</p>
+                <p className="font-oswald text-2xl text-white">press@voidband.ru</p>
+              </div>
+              <div>
+                <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-3">ОБЩИЕ ВОПРОСЫ</p>
+                <p className="font-oswald text-2xl text-white">info@voidband.ru</p>
+              </div>
+            </div>
+
+            <div>
+              <p className="font-mono text-red-500 text-xs tracking-[0.4em] mb-8">МЫ В СЕТИ</p>
+              <div className="space-y-4">
+                {[
+                  { icon: "Music", label: "ВКонтакте", handle: "@voidband" },
+                  { icon: "Video", label: "YouTube", handle: "@voidband" },
+                  { icon: "Headphones", label: "Яндекс Музыка", handle: "VOID" },
+                  { icon: "Radio", label: "Spotify", handle: "VOID" },
+                ].map((s) => (
+                  <div key={s.label} className="flex items-center gap-4 group cursor-pointer">
+                    <div className="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-red-600 group-hover:bg-red-600/10 transition-all duration-300">
+                      <Icon name={s.icon} fallback="Music" size={14} className="text-gray-500 group-hover:text-red-400" />
+                    </div>
+                    <div>
+                      <p className="font-oswald text-sm tracking-wide text-white group-hover:text-red-400 transition-colors">{s.label}</p>
+                      <p className="font-mono text-xs text-gray-600">{s.handle}</p>
+                    </div>
+                    <Icon name="ArrowRight" size={14} className="ml-auto text-gray-700 group-hover:text-red-500 group-hover:translate-x-1 transition-all" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-8 px-6 md:px-16 border-t border-white/5">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="font-oswald text-2xl tracking-[0.4em] text-white/20 animate-flicker">VOID</span>
+          <p className="font-mono text-xs text-gray-700 tracking-widest">© 2024 VOID. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
+          <div className="w-16 h-px bg-red-600 opacity-40" />
+        </div>
+      </footer>
     </div>
   );
-};
-
-export default Index;
+}
