@@ -273,7 +273,7 @@ export default function Index() {
       <footer className="py-8 px-6 md:px-16 border-t border-white/5">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <img src={LOGO} alt="Horror Thriller" className="h-8 w-auto object-contain opacity-20" />
-          <p className="font-mono text-xs text-gray-700 tracking-widest">© 2024 VOID. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
+          <p className="font-mono text-xs text-gray-700 tracking-widest">© 2026 HORROR TRILLER. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
           <div className="w-16 h-px bg-red-600 opacity-40" />
         </div>
       </footer>
