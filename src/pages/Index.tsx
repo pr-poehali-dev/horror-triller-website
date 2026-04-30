@@ -160,7 +160,7 @@ export default function Index() {
               «Там, где кончается свет — начинается музыка»
             </p>
             <button
-              onClick={() => scrollTo("music")}
+              onClick={() => scrollTo("video")}
               className="group flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-oswald text-sm tracking-[0.2em] px-8 py-4 transition-all duration-300 hover:scale-105"
             >
               СЛУШАТЬ СЕЙЧАС
