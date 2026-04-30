@@ -5,7 +5,7 @@ const HERO_IMAGE = "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349
 const LOGO = "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/bucket/ff03a736-40dd-4c71-a260-6e0d35e93039.png";
 
 const albums = [
-  { id: 1, title: "Герои Кинематограф", year: "2009", url: "https://band.link/heroes_of_cinema", cover: "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/bucket/e8709d3a-6e1e-4588-8946-f23122422960.jpg" },
+  { id: 1, title: "Герои Кинематографа", year: "2009", url: "https://band.link/heroes_of_cinema", cover: "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/bucket/e8709d3a-6e1e-4588-8946-f23122422960.jpg" },
   { id: 2, title: "Тёмный мир фэнтэзи", year: "2024", url: "https://band.link/ooy5e", cover: "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/bucket/f299cfba-aa60-47b5-9637-0e27f7a2f1e9.jpg" },
   { id: 3, title: "Кровавый коридор", year: "2024", url: "https://band.link/krovavyjkoridor", cover: "https://cdn.poehali.dev/projects/68ef8bc0-d8e5-4b57-afd0-349502515ebc/bucket/7be33d19-55fe-4bd0-b546-58df6a9fc985.jpg" },
 ];
